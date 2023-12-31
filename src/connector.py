@@ -1,9 +1,9 @@
-# database_connector.py
 import pymysql
 import logging
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
 
 class DatabaseConnector:
     def __init__(self, host, port, username, password, database):
@@ -17,7 +17,11 @@ class DatabaseConnector:
     def connect(self):
         try:
             self.connection = pymysql.connect(
-                host=self.host, port=self.port, user=self.username, password=self.password, db=self.database
+                host=self.host,
+                user=self.username,
+                password=self.password,
+                db=self.database,
+                port=self.port,
             )
             logger.info("Connected successfully")
         except pymysql.Error as e:
@@ -30,3 +34,7 @@ class DatabaseConnector:
                 logger.info("Disconnected successfully")
             except pymysql.Error as e:
                 logger.error("Failed to disconnect from the database: %s", e)
+
+
+connector = DatabaseConnector("localhost", 3306, "root", "QV]eP7PkPm1", "sakila")
+connector.connect()

@@ -1,3 +1,10 @@
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+
 class NotificationSender:
-    def send_notification(self, message):
-        print(message)
+    @staticmethod
+    def send_notification(message):
+        logger.info(message)

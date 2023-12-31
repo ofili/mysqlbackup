@@ -1,6 +1,7 @@
 import os
 import subprocess
 import logging
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -15,6 +16,12 @@ class MySQLBackupTool:
         self.database_connector = database_connector
 
     def create_backup(self):
+        """
+        Creates a backup of the MySQL database.
+
+        :return:
+            True if the backup was successful, False otherwise.
+        """
         try:
             self.database_connector.connect()
 
@@ -22,9 +29,11 @@ class MySQLBackupTool:
             if not os.path.exists(self.backup_dir):
                 os.makedirs(self.backup_dir)
 
-            # Construct the file path
+            # Construct the file path with the current date
+            current_date = datetime.now().strftime("%Y%m%d%H%M%S")
             backup_file_path = os.path.join(
-                self.backup_dir, self.database_name + SQL_FILE_EXTENSION
+                self.backup_dir,
+                f"{self.database_name}_{current_date}{SQL_FILE_EXTENSION}",
             )
 
             # Use subprocess to execute mysqldump command
@@ -36,7 +45,7 @@ class MySQLBackupTool:
                         "localhost",
                         "-u",
                         self.database_connector.username,
-                        "-p" + self.database_connector.password,
+                        "-p",  # + self.database_connector.password,
                         self.database_name,
                     ],
                     stdout=backup_file,
@@ -56,6 +65,12 @@ class MySQLBackupTool:
             self.database_connector.disconnect()
 
     def verify_backup(self):
+        """
+        Verifies that the backup file is valid.
+
+        :return:
+            True if the backup file is valid, False otherwise.
+        """
         backup_file = os.path.join(
             self.backup_dir, self.database_name + SQL_FILE_EXTENSION
         )
