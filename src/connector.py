@@ -34,7 +34,3 @@ class DatabaseConnector:
                 logger.info("Disconnected successfully")
             except pymysql.Error as e:
                 logger.error("Failed to disconnect from the database: %s", e)
-
-
-connector = DatabaseConnector("localhost", 3306, "root", "QV]eP7PkPm1", "sakila")
-connector.connect()
