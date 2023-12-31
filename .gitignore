@@ -165,4 +165,5 @@ cython_debug/
 .idea/
 
 # Large files
-data/
+data/*
+backup_schedule.json
